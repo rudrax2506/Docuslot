@@ -1,0 +1,20 @@
+{
+  "name": "docuslot",
+  "version": "1.0.0",
+  "description": "Docuslot is a modern doctor appointment booking website for the patients. The development of website is still in progress.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rudrax2506/Docuslot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rudrax2506/Docuslot/issues"
+  },
+  "homepage": "https://github.com/rudrax2506/Docuslot#readme"
+}
