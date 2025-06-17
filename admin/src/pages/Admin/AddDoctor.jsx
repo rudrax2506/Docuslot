@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import { assets } from '../../assets/assets'
 import { AdminContext } from '../../context/AdminContext'
 import { toast } from 'react-toastify'
+import axios from 'axios'
 
 const AddDoctor = () => {
 
@@ -45,6 +46,14 @@ const AddDoctor = () => {
       formData.forEach((value, key) => {
         console.log(`${key}: ${value}`);
       });
+
+      const {data} = await axios.post(backendUrl + '/api/admin/add-doctor', formData, {headers:{aToken}})
+
+      if(data.success){
+        toast.success(data.message)
+      } else{
+        toast.error(data.message)
+      }
 
     } catch (error) {
 
@@ -95,7 +104,7 @@ const AddDoctor = () => {
                 <option value="4 Year">4 Years</option>
                 <option value="5 Year">5 Years</option>
                 <option value="6 Year">6 Years</option>
-                <option value="7 Year">6 Years</option>
+                <option value="7 Year">7 Years</option>
                 <option value="8 Year">8 Years</option>
                 <option value="9 Year">9 Years</option>
                 <option value="10 Year">10 Years</option>
