@@ -80,23 +80,17 @@ const loginUser = async (req, res) => {
     }
 }
 
-// API to get user profile data
 const getProfile = async (req, res) => {
-
     try {
-        const { userId } = req.body
-        const userData = await userModel.findById(userId).select('-password')
-
+        const userData = await userModel.findById(req.userId).select('-password')
         res.json({ success: true, userData })
-
     } catch (error) {
         console.log(error)
         res.json({ success: false, message: error.message })
     }
 }
 
-//API to udpdate user profile data
-
+// API to update user profile
 const updateProfile = async (req, res) => {
 
     try {
@@ -126,4 +120,5 @@ const updateProfile = async (req, res) => {
         res.json({ success: false, message: error.message })
     }
 }
+
 export { registerUser, loginUser, getProfile, updateProfile }

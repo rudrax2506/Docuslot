@@ -1,23 +1,14 @@
 import React, { useState } from 'react'
-import { assets } from '../assets/assets'
+import { useContext } from 'react'
+import { AppContext } from '../context/AppContext'
 
 const MyProfile = () => {
 
-  const [userData, setUserData] = useState({
-    name: 'Rudrax Sharad',
-    image: assets.profile_pic,
-    email: 'rudraxrishu@gmail.com',
-    phone: '0424552808',
-    address: {
-      line1: '17/32 Elgar Ave',
-      line2: 'Ingle Farm SA 5098'
-    },
-    gender: 'Male',
-    DOB: '2001-01-20'
-  })
+const {userData, setUserData} = useContext(AppContext)
+
 
   const [isEdit, setIsEdit] = useState(false)
-  return (
+  return userData && (
     <div className='max-w-lg flex flex-col gap-2 text-sm'>
       <img className='w-36 rounded' src={userData.image} alt="" />
 
@@ -59,7 +50,7 @@ const MyProfile = () => {
           <p className='font-medium'>Birthday:</p>
           {isEdit
             ? <input className='max-w-28 bg-gray-100' type='date' onChange={(e) => setUserData(prev => ({ ...prev, dob: e.target.value }))} value={userData.dob} />
-            : <p className='text-gray-400'>{userData.DOB}</p>}
+            : <p className='text-gray-400'>{userData.dob}</p>}
         </div>
       </div>
       <div className='mt-10'>
