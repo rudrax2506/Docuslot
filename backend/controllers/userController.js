@@ -90,35 +90,55 @@ const getProfile = async (req, res) => {
     }
 }
 
+// In your userController.js
+
 // API to update user profile
 const updateProfile = async (req, res) => {
-
     try {
+        // pull the real ID out of req.userId, not req.body
+        const userId = req.userId;
+        const { name, phone, address, dob, gender } = req.body;
+        const imageFile = req.file;
 
-        const { userId, name, phone, address, dob, gender } = req.body
-        const imageFile = req.file
-
+        // basic validation
         if (!name || !phone || !dob || !gender) {
-            return res.json({ success: false, message: "Data Missing" })
+            return res.json({ success: false, message: "Data Missing" });
         }
 
-        await userModel.findByIdAndUpdate(userId, { name, phone, address: JSON.parse(address), dob, gender })
+        // First update (without image), returning the new document
+        const updatedUser = await userModel.findByIdAndUpdate(
+            userId,
+            {
+                name,
+                phone,
+                address: JSON.parse(address),
+                dob,
+                gender
+            },
+            { new: true }               // <-- return the updated document
+        );
 
+        // If there’s a file, upload it then update the image URL
         if (imageFile) {
-
-            // upload image to cloudinary
-            const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" })
-            const imageURL = imageUpload.secure_url
-
-            await userModel.findByIdAndUpdate(userId, { image: imageURL })
+            const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
+                resource_type: "image"
+            });
+            updatedUser.image = imageUpload.secure_url;
+            await updatedUser.save();   // persist the new image URL
         }
 
-        res.json({ success: true, message: 'Profile Updated' })
+        // send back the fresh user object
+        res.json({
+            success: true,
+            message: "Profile Updated",
+            user: updatedUser
+        });
 
     } catch (error) {
-        console.log(error)
-        res.json({ success: false, message: error.message })
+        console.error(error);
+        res.json({ success: false, message: error.message });
     }
-}
+};
+
 
 export { registerUser, loginUser, getProfile, updateProfile }
