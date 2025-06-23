@@ -4,6 +4,8 @@ export const AppContext = createContext()
 
 const AppContextProvier = (props) => {
 
+    const currency = '$'
+
     // Function to calculate the age eg. ( 20_01_2000 => 24 )
     const calculateAge = (dob) => {
         const today = new Date()
@@ -12,9 +14,17 @@ const AppContextProvier = (props) => {
         return age
     }
 
+    const months = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    // Function to format the date eg. ( 20/01/2000 => 20 Jan 2000 )
+    const slotDateFormat = (slotDate) => {
+        const dateArray = slotDate.split('/')
+        return dateArray[0] + " " + months[Number(dateArray[1])] + " " + dateArray[2]
+    }
+
     const value = {
 
-        calculateAge
+        calculateAge, slotDateFormat, currency
 
 
 
