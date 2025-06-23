@@ -197,9 +197,9 @@ const bookAppointment = async (req, res) => {
 const listAppointment = async (req, res) => {
     try {
         const userId = req.userId
-        const appointments = await appointmentModel.find({userId})
+        const appointments = await appointmentModel.find({ userId })
 
-        res.json({success:true, appointments})
+        res.json({ success: true, appointments })
 
     } catch (error) {
         console.error(error)
@@ -209,6 +209,44 @@ const listAppointment = async (req, res) => {
 
 }
 
+const cancelAppointment = async (req, res) => {
+    try {
+        const { appointmentId } = req.body
+        const userId = req.userId  // ✅ Get from auth middleware
+
+        const appointmentData = await appointmentModel.findById(appointmentId)
+
+        if (!appointmentData) {
+            return res.json({ success: false, message: 'Appointment not found' })
+        }
+
+        // ✅ Correct way to compare ObjectIds
+        if (appointmentData.userId.toString() !== userId.toString()) {
+            return res.json({ success: false, message: 'Unauthorized action' })
+        }
+
+        await appointmentModel.findByIdAndUpdate(appointmentId, { cancelled: true })
+
+        // ✅ Release doctor's booked slot
+        const { docId, slotDate, slotTime } = appointmentData
+
+        const doctorData = await doctorModel.findById(docId)
+        let slots_booked = doctorData.slots_booked
+
+        if (slots_booked[slotDate]) {
+            slots_booked[slotDate] = slots_booked[slotDate].filter(e => e !== slotTime)
+        }
+
+        await doctorModel.findByIdAndUpdate(docId, { slots_booked })
+
+        res.json({ success: true, message: 'Appointment Cancelled' })
+
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: error.message })
+    }
+}
 
 
-export { registerUser, loginUser, getProfile, updateProfile, bookAppointment, listAppointment }
+
+export { registerUser, loginUser, getProfile, updateProfile, bookAppointment, listAppointment, cancelAppointment }
