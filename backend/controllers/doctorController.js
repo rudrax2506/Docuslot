@@ -1,17 +1,18 @@
 import doctorModel from "../models/doctorModel.js"
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import appointmentModel from "../models/appointmentModel.js";
 
 
 
 const changeAvailability = async (req, res) => {
-    try{
+    try {
 
-        const {docId} = req.body
+        const { docId } = req.body
 
         const docData = await doctorModel.findById(docId)
-        await doctorModel.findByIdAndUpdate(docId, {available: !docData.available})
-        res.json({success:true, message: 'Availabilty Changed'})
+        await doctorModel.findByIdAndUpdate(docId, { available: !docData.available })
+        res.json({ success: true, message: 'Availabilty Changed' })
 
 
     } catch (error) {
@@ -20,11 +21,11 @@ const changeAvailability = async (req, res) => {
     }
 }
 
-const doctorList = async(req, res) => {
-    try{
+const doctorList = async (req, res) => {
+    try {
 
-        const doctors = await doctorModel.find({}).select(['-password','-email'])
-        res.json({success:true,doctors})
+        const doctors = await doctorModel.find({}).select(['-password', '-email'])
+        res.json({ success: true, doctors })
 
     } catch (error) {
         console.log(error)
@@ -60,5 +61,18 @@ const loginDoctor = async (req, res) => {
     }
 }
 
-export {changeAvailability, doctorList, loginDoctor}
+// API to get doctor appointments for doctor panel
 
+const appointmentsDoctor = async (req, res) => {
+    try {
+        const { docId } = req;  // ✅ Now read from req.docId
+        const appointments = await appointmentModel.find({ docId });
+        res.json({ success: true, appointments });
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message });
+    }
+};
+
+
+export { changeAvailability, doctorList, loginDoctor, appointmentsDoctor }
