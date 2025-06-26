@@ -14,5 +14,21 @@ const appointmentSchema = new mongoose.Schema({
     isCompleted: { type: Boolean, default: false }
 })
 
+// in models/appointmentModel.js
+
+appointmentSchema.post('findOneAndDelete', async function(deletedAppt) {
+  if (!deletedAppt) return;
+
+  const { docId, slotDate, slotTime } = deletedAppt;
+  const doctor = await doctorModel.findById(docId);
+  if (!doctor || !doctor.slots_booked[slotDate]) return;
+
+  doctor.slots_booked[slotDate] = doctor.slots_booked[slotDate]
+    .filter(t => t !== slotTime);
+
+  await doctor.save();
+});
+
+
 const appointmentModel = mongoose.models.appointment || mongoose.model("appointment", appointmentSchema)
 export default appointmentModel
