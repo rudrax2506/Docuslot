@@ -131,6 +131,10 @@ const appointmentCancel = async (req, res) => {
             return res.json({ success: false, message: 'Appointment not found' })
         }
 
+        if (appointmentData.isCompleted) {
+            return res.json({ success: false, message: 'Cannot cancel a completed appointment' });
+        }
+
 
         await appointmentModel.findByIdAndUpdate(appointmentId, { cancelled: true })
 
@@ -165,12 +169,12 @@ const adminDashboard = async (req, res) => {
 
         const dashData = {
             doctors: doctors.length,
-            appointments:appointments.length,
+            appointments: appointments.length,
             patients: users.length,
-            latestAppointments: appointments.reverse().slice(0,5)
+            latestAppointments: appointments.reverse().slice(0, 5)
         }
 
-        res.json({success:true, dashData})
+        res.json({ success: true, dashData })
 
     } catch (error) {
         console.log(error)

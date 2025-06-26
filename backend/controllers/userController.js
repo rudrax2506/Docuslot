@@ -220,6 +220,11 @@ const cancelAppointment = async (req, res) => {
             return res.json({ success: false, message: 'Appointment not found' })
         }
 
+        if (appointmentData.isCompleted) {
+            return res.json({ success: false, message: 'Cannot cancel a completed appointment' });
+        }
+
+
         // ✅ Correct way to compare ObjectIds
         if (appointmentData.userId.toString() !== userId.toString()) {
             return res.json({ success: false, message: 'Unauthorized action' })
