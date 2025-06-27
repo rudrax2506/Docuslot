@@ -134,6 +134,89 @@ const appointmentComplete = async (req, res) => {
     }
 };
 
+// API To get Dashboard data for doctor panel
+
+// Controller to get doctor's dashboard data
+const doctorDashboard = async (req, res) => {
+    try {
+        const docId = req.docId;  // ✅ Use the ID set by the middleware
+
+        const appointments = await appointmentModel.find({ docId });
+
+        let earnings = 0;
+        appointments.forEach((item) => {
+            if (item.isCompleted) {
+                earnings += item.amount;
+            }
+        });
+
+        // ✅ Use Set to ensure unique patients
+        const patientSet = new Set();
+        appointments.forEach((item) => {
+            patientSet.add(item.userId.toString());
+        });
+
+        const dashData = {
+            earnings,
+            appointments: appointments.length,
+            patients: patientSet.size,
+            latestAppointments: appointments.reverse().slice(0, 5)
+        };
+
+        res.json({ success: true, dashData });  // ✅ FIXED: should be res.json
+    } catch (error) {
+        console.log(error);
+        return res.json({ success: false, message: error.message });
+    }
+};
+
+// API To get the Doctor Profile
+
+const doctorProfile = async (req, res) => {
+    try {
+        const docId = req.docId;
+        const profileData = await doctorModel.findById(docId).select('-password')
+
+        res.json({ success: true, profileData })
+
+    } catch (error) {
+
+        console.log(error);
+        return res.json({ success: false, message: error.message });
+
+    }
+}
+
+// API To update the Doctor Profile data from doctor panel
+
+const updateDoctorProfile = async (req, res) => {
+    try {
+
+        const docId = req.docId;
+        const {fees, address, available } = req.body
+
+        await doctorModel.findByIdAndUpdate(docId, { fees, address, available })
+        res.json({ success: true, message: 'Profile Updated' })
+
+    } catch (error) {
+        console.log(error);
+        return res.json({ success: false, message: error.message });
+
+    }
+}
 
 
-export { changeAvailability, doctorList, loginDoctor, appointmentsDoctor, appointmentCancel, appointmentComplete }
+
+
+
+export {
+    changeAvailability,
+    doctorList,
+    loginDoctor,
+    appointmentsDoctor,
+    appointmentCancel,
+    appointmentComplete,
+    doctorDashboard,
+    doctorProfile,
+    updateDoctorProfile
+}
