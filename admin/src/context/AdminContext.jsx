@@ -101,9 +101,27 @@ const AdminContextProvier = (props) => {
         }
     }
 
+    const [users, setUsers] = useState([])
+
+const getAllUsers = async () => {
+    try {
+        const { data } = await axios.get(backendUrl + '/api/admin/all-users', {
+            headers: { aToken }
+        })
+
+        if (data.success) {
+            setUsers(data.users)
+        } else {
+            toast.error(data.message)
+        }
+    } catch (error) {
+        toast.error(error.message)
+    }
+}
+
     const value = {
         aToken, setAToken,
-        backendUrl, doctors, getAllDoctors, changeAvailability, appointments, setAppointments, getAllAppointments, cancelAppointment, dashData, getDashData
+        backendUrl, doctors, getAllDoctors, changeAvailability, appointments, setAppointments, getAllAppointments, cancelAppointment, dashData, getDashData, users, getAllUsers
     }
 
     return (

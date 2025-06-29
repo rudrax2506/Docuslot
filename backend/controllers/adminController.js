@@ -183,7 +183,19 @@ const adminDashboard = async (req, res) => {
     }
 }
 
+// API to get all users list for admin
+const allUsers = async (req, res) => {
+    try {
+        const users = await userModel.find({}).select('-password')
+        res.json({ success: true, users })
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: error.message })
+    }
+}
 
 
 
-export { addDoctor, loginAdmin, allDoctors, appointmentsAdmin, appointmentCancel, adminDashboard }
+
+
+export { addDoctor, loginAdmin, allDoctors, appointmentsAdmin, appointmentCancel, adminDashboard, allUsers }
