@@ -5,7 +5,7 @@ import { AppContext } from '../../context/AppContext'
 
 const DoctorDashboard = () => {
 
-  const { dToken, dashData, setDashData, getDashData, cancelAppointment, completeAppointment } = useContext(DoctorContext)
+  const { dToken, dashData, setDashData, getDashData, cancelAppointment, completeAppointment, appointments } = useContext(DoctorContext)
   const { currency, slotDateFormat } = useContext(AppContext)
 
   useEffect(() => {
@@ -56,7 +56,7 @@ const DoctorDashboard = () => {
               <img className='rounded-full w-10' src={item.userData.image} alt="" />
               <div className='flex-1 text-sm'>
                 <p className='text-gray-800 font-medium'>{item.userData.name}</p>
-                <p className='text-gray-600 '>Booking on {slotDateFormat(item.slotDate)}</p>
+                <p className='text-gray-600 '>Booking on {slotDateFormat(item.slotDate)}, {item.slotTime}</p>
               </div>
               {item.cancelled
                 ? <p className='text-red-400 text-xs font-medium'>Cancelled</p>
