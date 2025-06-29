@@ -1,3 +1,4 @@
+// C:\Docuslot\admin\src\App.jsx
 import React, { useContext } from 'react'
 import Login from './pages/Login'
 import { ToastContainer } from 'react-toastify';
@@ -14,6 +15,10 @@ import { DoctorContext } from './context/DoctorContext';
 import DoctorDashboard from './pages/Doctor/DoctorDashboard';
 import DoctorAppointments from './pages/Doctor/DoctorAppointments';
 import DoctorProfile from './pages/Doctor/DoctorProfile';
+import UserList from './pages/Admin/UserList';
+
+
+
 
 
 const App = () => {
@@ -35,6 +40,7 @@ const App = () => {
           <Route path='/all-appointments' element={<AllAppointments />} />
           <Route path='/add-doctor' element={<AddDoctor />} />
           <Route path='/doctor-list' element={<DoctorsList />} />
+          <Route path='/user-list' element={<UserList />} />
 
           {/* Doctor Route */}
 
