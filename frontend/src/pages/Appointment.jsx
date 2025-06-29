@@ -72,46 +72,50 @@ const Appointment = () => {
   }
 
   const bookAppointment = async () => {
-    if (!token) {
-      toast.warn('Login to Book Appointment')
-      return navigate('/login')
-    }
-
-    if (!slotTime) {
-      toast.warn('Please select a time slot')
-      return
-    }
-
-    try {
-      const selectedDay = docSlots[slotIndex]?.date
-      const d = selectedDay.getDate()
-      const m = selectedDay.getMonth() + 1
-      const y = selectedDay.getFullYear()
-      const slotDate = `${d}/${m}/${y}`
-
-      const { data } = await axios.post(
-        `${backendUrl}/api/user/book-appointment`,
-        { docId, slotDate, slotTime },
-        { headers: { token } }
-      )
-
-      if (data.success) {
-        toast.success(data.message, {
-          position: 'top-right',
-          autoClose: 2000,
-          onClose: () => {
-            getDoctorsData()
-            navigate('/my-appointments')
-          }
-        })
-      } else {
-        toast.error(data.message)
-      }
-    } catch (error) {
-      console.error(error)
-      toast.error(error.message)
-    }
+  if (!token) {
+    toast.warn('Login to Book Appointment')
+    setTimeout(() => {
+      navigate('/login')
+    }, 2500) // 2.5 seconds delay to allow toast to show
+    return
   }
+
+  if (!slotTime) {
+    toast.warn('Please select a time slot')
+    return
+  }
+
+  try {
+    const selectedDay = docSlots[slotIndex]?.date
+    const d = selectedDay.getDate()
+    const m = selectedDay.getMonth() + 1
+    const y = selectedDay.getFullYear()
+    const slotDate = `${d}/${m}/${y}`
+
+    const { data } = await axios.post(
+      `${backendUrl}/api/user/book-appointment`,
+      { docId, slotDate, slotTime },
+      { headers: { token } }
+    )
+
+    if (data.success) {
+      toast.success(data.message, {
+        position: 'top-right',
+        autoClose: 2000,
+        onClose: () => {
+          getDoctorsData()
+          navigate('/my-appointments')
+        }
+      })
+    } else {
+      toast.error(data.message)
+    }
+  } catch (error) {
+    console.error(error)
+    toast.error(error.message)
+  }
+}
+
 
   useEffect(() => {
     fetchDocInfo()
