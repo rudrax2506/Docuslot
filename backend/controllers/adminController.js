@@ -1,3 +1,4 @@
+// C:\Docuslot\backend\controllers\adminController.js
 import validator from "validator"
 import bcrypt from "bcrypt"
 import { v2 as cloudinary } from "cloudinary"
@@ -194,8 +195,29 @@ const allUsers = async (req, res) => {
     }
 }
 
+// API to block and unblock a user
+const toggleUserBlock = async (req, res) => {
+    try {
+        const { userId } = req.body
+        const user = await userModel.findById(userId)
+
+        if (!user) {
+            return res.json({ success: false, message: 'User not found' })
+        }
+
+        user.isBlocked = !user.isBlocked
+        await user.save()
+
+        res.json({ success: true, message: `User has been ${user.isBlocked ? 'blocked' : 'unblocked'}` })
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: error.message })
+    }
+}
 
 
 
 
-export { addDoctor, loginAdmin, allDoctors, appointmentsAdmin, appointmentCancel, adminDashboard, allUsers }
+
+
+export { addDoctor, loginAdmin, allDoctors, appointmentsAdmin, appointmentCancel, adminDashboard, allUsers, toggleUserBlock }

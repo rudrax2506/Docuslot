@@ -1,3 +1,4 @@
+// C:\Docuslot\backend\middlewares\authAdmin.js
 import jwt from 'jsonwebtoken'
 
 // Admin authentication middleware

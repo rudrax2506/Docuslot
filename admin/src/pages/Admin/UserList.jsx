@@ -5,7 +5,7 @@ import * as XLSX from 'xlsx'
 import { saveAs } from 'file-saver'
 
 const UserList = () => {
-  const { users = [], getAllUsers } = useContext(AdminContext)
+  const { users = [], getAllUsers, toggleUserBlock } = useContext(AdminContext)
   const { calculateAge } = useContext(AppContext)
 
   const [search, setSearch] = useState('')
@@ -37,6 +37,7 @@ const UserList = () => {
       Gender: user.gender,
       DOB: user.dob,
       Age: user.dob !== 'Not Selected' ? calculateAge(user.dob) : 'N/A',
+      Status: user.isBlocked ? 'Blocked' : 'Active',
     }))
 
     const worksheet = XLSX.utils.json_to_sheet(exportData)
@@ -146,6 +147,7 @@ const UserList = () => {
                 <th className="px-6 py-4 text-left font-semibold text-gray-700">Gender</th>
                 <th className="px-6 py-4 text-left font-semibold text-gray-700">DOB</th>
                 <th className="px-6 py-4 text-left font-semibold text-gray-700">Age</th>
+                <th className="px-6 py-4 text-left font-semibold text-gray-700">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -166,6 +168,15 @@ const UserList = () => {
                   <td className="px-6 py-4">{user.dob}</td>
                   <td className="px-6 py-4">
                     {user.dob !== 'Not Selected' ? calculateAge(user.dob) : 'N/A'}
+                  </td>
+                  <td className="px-6 py-4">
+                    <button
+                      onClick={() => toggleUserBlock(user._id)}
+                      className={`px-3 py-1 rounded text-sm font-medium 
+                        ${user.isBlocked ? 'bg-green-600' : 'bg-red-600'} text-white hover:opacity-90 transition`}
+                    >
+                      {user.isBlocked ? 'Unblock' : 'Block'}
+                    </button>
                   </td>
                 </tr>
               ))}

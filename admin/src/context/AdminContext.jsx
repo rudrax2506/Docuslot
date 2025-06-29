@@ -119,9 +119,29 @@ const getAllUsers = async () => {
     }
 }
 
+const toggleUserBlock = async (userId) => {
+  try {
+    const { data } = await axios.post(
+      backendUrl + '/api/admin/toggle-user-block',
+      { userId },
+      { headers: { aToken } }
+    )
+
+    if (data.success) {
+      toast.success(data.message)
+      getAllUsers()
+    } else {
+      toast.error(data.message)
+    }
+  } catch (error) {
+    toast.error(error.message)
+  }
+}
+
+
     const value = {
         aToken, setAToken,
-        backendUrl, doctors, getAllDoctors, changeAvailability, appointments, setAppointments, getAllAppointments, cancelAppointment, dashData, getDashData, users, getAllUsers
+        backendUrl, doctors, getAllDoctors, changeAvailability, appointments, setAppointments, getAllAppointments, cancelAppointment, dashData, getDashData, users, getAllUsers, toggleUserBlock
     }
 
     return (
