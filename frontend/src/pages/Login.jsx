@@ -22,15 +22,16 @@ const Login = () => {
     try {
 
       if (state === 'Sign Up') {
-        const { data } = axios.post(backendUrl + '/api/user/register', { name, password, email })
+        const { data } = await axios.post(backendUrl + '/api/user/register', { name, password, email })
         if (data.success) {
+          toast.success('Account Created Successfully')
           localStorage.setItem('token', data.token)
           setToken(data.token)
         } else {
           toast.error(data.message)
         }
       } else {
-        const { data } = await axios.post(backendUrl + '/api/user/login', { email, password})
+        const { data } = await axios.post(backendUrl + '/api/user/login', { email, password })
         if (data.success) {
           localStorage.setItem('token', data.token)
           setToken(data.token)
@@ -51,7 +52,7 @@ const Login = () => {
     if (token) {
       navigate('/')
     }
-  },[token])
+  }, [token])
 
   return (
     <form onSubmit={onSubmitHandler} className='min-h-[80vh] flex items-center'>
