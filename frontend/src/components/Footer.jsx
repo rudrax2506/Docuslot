@@ -16,7 +16,7 @@ const Footer = () => {
             />
           </div>
           <p className='w-full md:w-2/3 text-gray-600 leading-6'>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+          Docuslot is committed to transforming healthcare access through innovative digital solutions. We empower patients, doctors, and administrators with a seamless, secure, and efficient appointment management system. Your health, our priority — anytime, anywhere.
           </p>
         </div>
         
