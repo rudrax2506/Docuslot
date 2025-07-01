@@ -2,8 +2,24 @@ Docuslot - Doctor Appointment Booking System
 
 Docuslot is a modern, responsive web application designed for efficient and user-friendly doctor appointment management. Built using the MERN Stack (MongoDB, Express.js, React.js, Node.js) with Tailwind CSS, it serves as a complete platform for patients, doctors, and admins.
 
-Live Demo
-Link to be updated here after the website deployment
+Live Demo and login credentials
+1) https://docuslot-frontend.onrender.com
+   
+          a) login credentails for one of the users are:
+                 i) username - test2@gmail.com
+                 ii) password - 1234@Abc
+   
+3) https://docuslot-admin.onrender.com/
+   
+          a) login credentails for one of the doctors are:
+                 i) username - richard@docuslot.com
+                 ii) password - 12345678
+   
+          b) login credentails for the admin are:
+                 i) username - admin@docuslot.com
+                 ii) password - 1234@Abc
+   
+Please feel free to access the website from the different login portals
 
 Features
 
@@ -49,11 +65,3 @@ Feel free to explore Docuslot — your all-in-one solution for seamless, smart, 
 References
 1) GreatStack Youtube Chanel
 2) Stack Overflow
-
-
-
-
-
-
-
-
