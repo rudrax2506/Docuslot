@@ -5,17 +5,17 @@ Docuslot is a modern, responsive web application designed for efficient and user
 Live Demo and login credentials
 1) https://docuslot-frontend.onrender.com
    
-          a) login credentails for one of the users are:
+          a) login credentials for one of the users are:
                  i) username - test2@gmail.com
                  ii) password - 1234@Abc
    
 3) https://docuslot-admin.onrender.com/
    
-          a) login credentails for one of the doctors are:
+          a) login credentials for one of the doctors are:
                  i) username - richard@docuslot.com
                  ii) password - 12345678
    
-          b) login credentails for the admin are:
+          b) login credentials for the admin are:
                  i) username - admin@docuslot.com
                  ii) password - 1234@Abc
    
